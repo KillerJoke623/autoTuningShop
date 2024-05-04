@@ -63,10 +63,39 @@
             <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
           </li>
         </ul>
-
+        <select>
+          <option value="">-- Select Manufacturer --</option>
+          <option th:each="manufacturer : ${manufacturers}" th:value="${manufacturer.manufacturer_id}" th:text="${manufacturer.manufacturer}">
+          </option>
+        </select>
+        <select>
+          <option></option>
+        </select>
+        <button class="btn btn-primary" onclick="createCar()">Create Car</button>
       </li>
 
+      <script>
+        function createCar() {
+          // Get the car's information from the user.
+          var manufacturer = prompt("Enter the car's manufacturer:");
+          var model = prompt("Enter the car's model:");
+          var year = prompt("Enter the car's year:");
 
+          // Create a new car object.
+          var car = new Car();
+          car.setManufacturer(manufacturer);
+          car.setModel(model);
+          car.setYear(year);
+
+          // Save the car to the database.
+          carRepository.save(car);
+
+          // Hide the form fields.
+          document.getElementById("manufacturer").style.display = "none";
+          document.getElementById("model").style.display = "none";
+          document.getElementById("year").style.display = "none";
+        }
+      </script>
       <li class="list-group-item">
         <h2>Orders:</h2>
         <ul class="list-unstyled">

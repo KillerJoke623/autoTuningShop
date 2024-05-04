@@ -42,6 +42,8 @@
         </div>
     </nav>
 
+    <input type="hidden" id="serviceData" th:value="${service.service_price}" />
+
     <div class="container">
         <h1>Service Info</h1>
         <div class="row">
@@ -55,13 +57,49 @@
                 <p th:text="${service.service_description}"></p>
             </div>
         </div>
+
+        <select id="carSelect">
+            <option value="" selected>-- Select car --</option>
+            <option th:each="car : ${user.getCars()}" th:value="${car.getModel().carClass.id}" th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |">
+
+        </select>
+
+        <script>
+            document.getElementById("carSelect").addEventListener("change", function() {
+                selectedCarClassId = this.options[this.selectedIndex].value;
+                console.log(this.options[this.selectedIndex].value);
+
+                const serviceDataElement = document.getElementById("serviceData");
+                console.log(serviceDataElement);
+                const serviceData = JSON.parse(serviceDataElement.value);
+                console.log(serviceData);
+
+                price = document.getElementById("servicePrice");
+                price.textContent = "от " + serviceData[selectedCarClassId];
+                console.log(price.textContent);
+            });
+        </script>
+
         <div class="row">
             <div class="col-md-6">
                 <h2>Service Price</h2>
-                <p th:text="${service.service_price}"></p>
+<!--                <p th:text="| ${service.service_price[*{__${carSelect.value}__}]} |"></p>-->
+                <p id="servicePrice" th:text="| ${service.service_price[0]} |"></p>
             </div>
         </div>
     </div>
+
+    <div class="container">
+
+
+
+    </div>
+
+    <ul class="list-unstyled">
+        <li th:each="car : ${user.getCars()}">
+            <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
+        </li>
+    </ul>
 
     <form action="" th:action="@{/service/{serviceId}(serviceId=${service.service_id})}" th:object="${tuningOrder}" method="post">
         <input type="text" name="comment" placeholder="Comment">

@@ -28,5 +28,8 @@ public class Model {
     private Manufacturers manufacturer;
 
 
+    @ManyToOne
+    @JoinColumn(name = "car_class_id")
+    private CarClass carClass;
 
 }

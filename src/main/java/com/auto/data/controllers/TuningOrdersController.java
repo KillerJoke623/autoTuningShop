@@ -73,14 +73,18 @@ public class TuningOrdersController {
     }
 
     @GetMapping
-    public String showRegistrationForm(Model model, @PathVariable Integer serviceId) {
+    public String showTuningOrderPage(Model model, @PathVariable Integer serviceId) {
         Service service = serviceRepository.findById(serviceId).orElseThrow(() -> new IllegalArgumentException("Service not found"));
         List<Manufacturers> manufacturers = manufacturersRepository.findAll();
         List<com.auto.data.models.Model> models = modelRepository.findAll();
+        Users user = userService.getUserByEmail( SecurityContextHolder.getContext().getAuthentication().getName());
+
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("models", models);
         model.addAttribute("service", service);
         model.addAttribute("tuningOrders", new TuningOrders());
+        model.addAttribute("user", user);
+
         return "newTuningOrder";
     }
 }

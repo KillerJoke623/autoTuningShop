@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 import java.io.IOException;
@@ -56,21 +56,44 @@ public class WebSecurityConfig{
         return new ProviderManager(daoAuthenticationProvider);
     }
 
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeRequests(authorizeRequests -> {
+//                    try {
+//                        authorizeRequests.anyRequest()
+//                                        .authenticated().and().csrf().disable();
+//                    } catch (Exception e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                })
+//                .httpBasic(withDefaults())
+//                .formLogin(withDefaults());
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests -> {
-                    try {
-                        authorizeRequests.anyRequest()
-                                        .authenticated().and().csrf().disable();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .httpBasic(withDefaults())
-                .formLogin(withDefaults());
+        http
+                .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/login"),
+                                AntPathRequestMatcher.antMatcher("/registration"),
+                                AntPathRequestMatcher.antMatcher("/"),
+                                AntPathRequestMatcher.antMatcher("/servicesPage"),
+                                AntPathRequestMatcher.antMatcher("/css/**"),  // Разрешаем доступ к CSS
+                                AntPathRequestMatcher.antMatcher("/images/**"), // Разрешаем доступ к images
+                                AntPathRequestMatcher.antMatcher("/js/**")) // Разрешаем доступ к JavaScript
+                        .permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(
+                        withDefaults()
+                )
+                .logout(logout -> logout
+                        .permitAll()
+                );
         return http.build();
     }
-
     //!TODO Resolve endless redirecting to /login (ERR_TOO_MANY_REDIRECTS)
     //!TODO Убрать костыль в services
     //!TODO написать нормал конфиг, который работает, потому что сейчас на дефолте всё ок, но при этом не используется login.html и неизвестно, используется ли LoginController
@@ -82,8 +105,7 @@ public class WebSecurityConfig{
 //                .anyRequest().authenticated()
 //                .and()
 //                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/login")
+//
 //                .successHandler(new AuthenticationSuccessHandler() {
 //                    @Override
 //                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -94,13 +116,13 @@ public class WebSecurityConfig{
 //                        }
 //                    }
 //                })
-////                .failureHandler(new AuthenticationFailureHandler() {
-////                    @Override
-////                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-////                        request.setAttribute("errorMessage", exception.getMessage());
-////                        request.getRequestDispatcher("/login").forward(request, response);
-////                    }
-////                })
+//                .failureHandler(new AuthenticationFailureHandler() {
+//                    @Override
+//                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+//                        request.setAttribute("errorMessage", exception.getMessage());
+//                        request.getRequestDispatcher("/login").forward(request, response);
+//                    }
+//                })
 //                .and()
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

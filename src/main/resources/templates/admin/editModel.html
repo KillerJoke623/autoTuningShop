@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление модели</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Добавление модели</h1>
+    <form th:action="@{${model.model_id != null ? '/admin/models/edit/' + model.model_id : '/admin/models/add'}}" method="post" th:object="${model}">
+        <label for="model_name">Название:</label>
+        <input type="text" id="model_name" th:field="*{model_name}"><br><br>
+
+
+
+        <label for="generation">Поколение:</label>
+        <input type="number" id="generation" th:field="*{generation}"><br><br>
+
+        <label for="carClass">Класс автомобиля:</label>
+        <select id="carClass" th:field="*{carClass.id}">
+            <option th:each="carClass : ${carClasses}" th:value="${carClass.id}" th:text="${carClass.name}"></option>
+        </select><br><br>
+
+        <input type="submit" value="Сохранить">
+    </form>
+
+</div>
+</body>
+</html>

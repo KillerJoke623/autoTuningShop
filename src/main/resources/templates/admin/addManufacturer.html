@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление производителя</title>
+</head>
+<body>
+<h1>Добавление производителя</h1>
+<form th:action="@{/admin/manufacturers/add}" method="post" th:object="${manufacturers}">
+    <label for="manufacturer">Название:</label>
+    <input type="text" id="manufacturer" th:field="*{manufacturer}"><br><br>
+    <input type="submit" value="Добавить">
+</form>
+</body>
+</html>

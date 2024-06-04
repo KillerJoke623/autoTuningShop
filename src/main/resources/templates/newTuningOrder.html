@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Title</title>
 </head>
 <body>
@@ -47,38 +48,49 @@
     <div class="container">
         <h1>Service Info</h1>
         <div class="row">
-            <img class="card-img-top" th:src="@{/images/__${service.service_id}__.jpg}" alt="Услуга 1">
+            <img class="card-img-top img-fluid mb-3" th:src="@{/images/__${service.service_id}__.jpg}" alt="Услуга 1">
             <div class="col-md-6">
-                <h2>Service Name</h2>
+                <h2 class="h2">Название услуги</h2>
                 <p th:text="${service.service_name}"></p>
             </div>
             <div class="col-md-6">
-                <h2>Service Description</h2>
+                <h2 class="h3">Описание услуги</h2>
                 <p th:text="${service.service_description}"></p>
             </div>
         </div>
 
-        <select id="carSelect">
-            <option value="" selected>-- Select car --</option>
-            <option th:each="car : ${user.getCars()}" th:value="${car.getModel().carClass.id}" th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |">
+<!--        Before cart-->
+<!--        th:action="@{/service/{serviceId}(serviceId=${service.service_id})}" th:object="${tuningOrder}"-->
 
-        </select>
+<!--        Cart v1-->
+<!--        "@{/cart/add/{id}(id=${service.service_id})}"-->
 
-        <script>
-            document.getElementById("carSelect").addEventListener("change", function() {
-                selectedCarClassId = this.options[this.selectedIndex].value;
-                console.log(this.options[this.selectedIndex].value);
+        <form action="" th:action="@{/cart/add/{serviceId}(serviceId=${service.service_id})}" method="post" class="mt-4">
+            <input type="text" name="comment" placeholder="Comment">
+            <input type="hidden" name="service" th:value="${service.service_id}" th:type="number"/>
+            <select name="carSelect" id="carSelect" class="form-select">
+                <option value="" selected>-- Select car --</option>
+                <option th:each="car : ${user.getCars()}" th:value="${car.car_id}" th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |">
+            </select>
 
-                const serviceDataElement = document.getElementById("serviceData");
-                console.log(serviceDataElement);
-                const serviceData = JSON.parse(serviceDataElement.value);
-                console.log(serviceData);
 
-                price = document.getElementById("servicePrice");
-                price.textContent = "от " + serviceData[selectedCarClassId];
-                console.log(price.textContent);
-            });
-        </script>
+            <script>
+                document.getElementById("carSelect").addEventListener("change", function() {
+                    selectedCarClassId = this.options[this.selectedIndex].value;
+                    console.log(this.options[this.selectedIndex].value);
+
+                    const serviceDataElement = document.getElementById("serviceData");
+                    console.log(serviceDataElement);
+                    const serviceData = JSON.parse(serviceDataElement.value);
+                    console.log(serviceData);
+
+                    price = document.getElementById("servicePrice");
+                    price.textContent = "от " + serviceData[selectedCarClassId];
+                    console.log(price.textContent);
+                });
+            </script>
+            <button type="submit" class="btn btn-primary">Создать заказ</button>
+        </form>
 
         <div class="row">
             <div class="col-md-6">
@@ -162,7 +174,7 @@
     </form>
 
 
-    <footer class="footer bg-dark text-white text-center py-3">
+    <footer class="footer bg-dark text-white text-center py-3 mt-5">
         <div class="container">
             <p>&copy; 2023 Цифровая платформа автомобильного тюнинг ателье. Все права защищены.</p>
         </div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Корзина</h1>
+    <p th:if="${selectedCar != null}">Выбранный автомобиль: <span th:text="|${selectedCar.manufacturers.manufacturer} ${selectedCar.model.model_name}|"></span></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="service, iStat : ${cart}">
+            <td th:text="${service.service_name}"></td>
+<!--            <td th:text="${service.service_price}"></td>-->
+            <td th:text="${cartPrices[iStat.index]}"></td>
+            <td>
+                <form th:action="@{/cart/remove/{id}(id=${service.service_id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/services}" class="btn btn-secondary">Вернуться к услугам</a>
+    <a th:href="@{/cart/checkout}" class="btn btn-primary">Оформить заказ</a>
+</div>
+</body>
+</html>

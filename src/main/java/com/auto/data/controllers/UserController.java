@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 @Controller
 public class UserController {
     private final UserRepository userRepository;
@@ -38,4 +39,15 @@ public class UserController {
         userRepository.save(newUser);
         return "redirect:/registration-success";
     }
+
+//    private boolean isValidEmail(String email) {
+//        try {
+//            InternetAddress emailAddr = new InternetAddress(email);
+//            emailAddr.validate();
+//            return true;
+//        } catch (AddressException ex) {
+//            return false;
+//        }
+//    }
+
 }

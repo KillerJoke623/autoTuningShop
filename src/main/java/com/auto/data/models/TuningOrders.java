@@ -47,6 +47,9 @@ public class TuningOrders {
             inverseJoinColumns = @JoinColumn(name = "services_service_id"))
     private Set<Service> servicess = new LinkedHashSet<>();
 
-
+    @ElementCollection
+    @CollectionTable(name = "order_prices", joinColumns = @JoinColumn(name = "order_id"))
+    @OrderColumn(name = "price_index")
+    private List<Integer> prices = new ArrayList<>();
 
 }

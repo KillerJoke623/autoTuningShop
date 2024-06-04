@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Управление производителями</title>
+</head>
+<body>
+<h1>Управление производителями</h1>
+<a th:href="@{/admin/manufacturers/add}">Добавить производителя</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="manufacturer : ${manufacturers}">
+        <td th:text="${manufacturer.manufacturer_id}"></td>
+        <td th:text="${manufacturer.manufacturer}"></td>
+        <td>
+            <a th:href="@{/admin/manufacturers/edit/{id}(id=${manufacturer.manufacturer_id})}">Редактировать</a>
+            <a th:href="@{/admin/manufacturers/delete/{id}(id=${manufacturer.manufacturer_id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

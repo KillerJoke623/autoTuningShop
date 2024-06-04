@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/css/acc.css}">
   <title>Title</title>
 </head>
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
+    <div class="container mt-5">
       <a class="navbar-brand" href="http://localhost:8080">Авто Тюнинг Ателье</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,34 +45,88 @@
 
 
 
-  <div class="container">
-    <h1>Your Account</h1>
+  <div class="container mt-5">
+    <h1 class="display-4 mb-3">Личный кабинет</h1>
 
-    <ul class="list-group">
-      <li class="list-group-item">
-        <h2>Name:</h2>
-        <p th:text="${user.getName()}"></p>
+    <ul class="list-unstyled">
+      <li class="mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Информация о пользователе</h2>
+            <p class="card-text lead">Имя: <span th:text="${user.getName()}"></span></p>
+            <p class="card-text lead">Email: <span th:text="${user.getEmail()}"></span></p>
+          </div>
+        </div>
       </li>
-      <li class="list-group-item">
-        <h2>Email:</h2>
-        <p th:text="${user.getEmail()}">{{ user.email }}</p>
-      </li>
-      <li class="list-group-item">
-        <h2>Cars:</h2>
-        <ul class="list-unstyled">
-          <li th:each="car : ${user.getCars()}">
-            <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
-          </li>
-        </ul>
-        <select>
-          <option value="">-- Select Manufacturer --</option>
-          <option th:each="manufacturer : ${manufacturers}" th:value="${manufacturer.manufacturer_id}" th:text="${manufacturer.manufacturer}">
-          </option>
-        </select>
-        <select>
-          <option></option>
-        </select>
-        <button class="btn btn-primary" onclick="createCar()">Create Car</button>
+      <li class="mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Автомобили:</h2>
+            <ul class="list-unstyled">
+              <li th:each="car : ${user.getCars()}">
+                <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
+              </li>
+            </ul>
+            <form th:action="@{/account/createCar}" method="post" th:object="${car}">
+              <select name="manufacturers" id="manufacturers" class="form-select mb-3">
+                <option value="">-- Select Manufacturer --</option>
+                <option th:each="manufacturer : ${manufacturers}" th:value="${manufacturer.manufacturer_id}" th:text="${manufacturer.manufacturer}">
+                </option>
+              </select>
+              <select name="models" id="models" class="form-select mb-3">
+                <option value="">-- Select Model --</option>
+                <script>
+                  function getModelsByManufacturer(manufacturerId, callback) {
+                      // Get the database connection.
+                      var connection = new XMLHttpRequest();
+                      connection.open("GET", "/api/models/manufacturer/" + manufacturerId);
+                      connection.responseType = "";
+                      connection.send();
+
+                      // Wait for the response from the database.
+                      connection.onload = function() {
+                          // Get the models from the response.
+                          var models = JSON.parse(connection.responseText);
+                          console.log(models);
+                          // Return the models.
+                          callback(models.values);
+                      };
+                  }
+                </script>
+                <script>
+                  function filterModelsByManufacturer(manufacturerId) {
+                     // Get the select element for the models.
+                     var modelsSelect = document.getElementById("models");
+
+                     // Clear the options in the select element.
+                     modelsSelect.innerHTML = "";
+
+                     // Get the models for the specified manufacturer.
+                      getModelsByManufacturer(manufacturerId, function(models) {
+                          // Add the models to the select element.
+                          for (var i = 0; i < models.length; i++) {
+                              var option = document.createElement("option");
+                              option.value = models[i].nameValuePairs.model_id;
+                              option.text = models[i].nameValuePairs.model_name;
+                              modelsSelect.appendChild(option);
+                          }
+                      });
+                 }
+                </script>
+                <script>
+                  // Bind the filterModelsByManufacturer function to the change event of the manufacturers select element.
+                  document.getElementById("manufacturers").addEventListener("change", function() {
+                      console.log(this.options[this.selectedIndex].value);
+                      filterModelsByManufacturer(this.options[this.selectedIndex].value);
+
+                  });
+                </script>
+              </select>
+              <button type="submit" class="btn btn-primary">Добавить автомобиль</button>
+            </form>
+          </div>
+        </div>
+<!--        <button class="btn btn-primary" onclick="createCar()">Create Car</button>-->
       </li>
 
       <script>
@@ -96,23 +151,32 @@
           document.getElementById("year").style.display = "none";
         }
       </script>
-      <li class="list-group-item">
-        <h2>Orders:</h2>
-        <ul class="list-unstyled">
-          <li th:each="order : ${orders}">
-            <h3 th:text="${#temporals.format(order.getDateTime(), 'dd-MM-yyyy HH:mm')}"></h3>
-            <h5 th:if="${order.getCar() != null}" th:text="| ${order.getCar().getManufacturers().manufacturer} ${order.getCar().getModel().model_name} |"></h5>
-            <h5 th:if="${order.getComment() != null}" th:text="${order.getComment()}"></h5>
-            <h4 th:if="${order.getStatus() != null}" th:text="${order.getStatus()}"></h4>
+
+      <li>
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Заказы</h2>
             <ul class="list-unstyled">
-              <li th:each="service : ${order.getServicess()}">
-                <p th:text="| ${service.getService_name()} ${service.getService_price()} |"></p>
+              <li th:each="order : ${orders}" class="mb-3">
+                <h3 class="card-title" th:text="${#temporals.format(order.getDateTime(), 'dd-MM-yyyy HH:mm')}"></h3>
+                <h5 th:if="${order.getCar() != null}" th:text="| ${order.getCar().getManufacturers().manufacturer} ${order.getCar().getModel().model_name} |"></h5>
+                <h5 th:if="${order.getComment() != null}" th:text="${order.getComment()}"></h5>
+                <h4 th:if="${order.getStatus() != null}" th:text="${order.getStatus()}"></h4>
+                <ul class="list-unstyled">
+                  <li th:each="service, iStat : ${order.getServicess()}">
+                    <p th:if="${order.getPrices() != null and !order.getPrices().isEmpty()}"
+                       th:text="| ${service.getService_name()} - ${order.getPrices().get(iStat.index)} руб. |"></p>
+                    <p th:unless="${order.getPrices() != null and !order.getPrices().isEmpty()}"
+                       th:text="|${service.getService_name()} - Цена отсутствует|"></p>
+                  </li>
+                </ul>
+                <p>Общая стоимость заказа: <span th:text="${#aggregates.sum(order.getPrices())}"></span> руб.</p>
+                <button class="btn btn-danger"  th:value="${order}" th:with="order=${order}" th:onclick="| declineOrder(${order.order_id}) |">Decline</button>
+
               </li>
             </ul>
-            <button class="btn btn-danger"  th:value="${order}" th:with="order=${order}" th:onclick="| declineOrder(${order.order_id}) |">Decline</button>
-
-          </li>
-        </ul>
+          </div>
+        </div>
       </li>
     </ul>
 

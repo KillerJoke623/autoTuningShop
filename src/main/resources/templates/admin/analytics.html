@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Аналитика</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Аналитика</h1>
+
+    <h2>Заказы</h2>
+    <p>Общее количество заказов: <span th:text="${totalOrdersCount}"></span></p>
+
+    <h3>Заказы по статусам</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Статус</th>
+            <th>Количество</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${ordersCountByStatus}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${row[1]}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Общая выручка</h3>
+    <p>Общая выручка: <span th:text="${totalRevenue}"></span> руб.</p>
+
+    <h3>Выручка по услугам</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Услуга</th>
+            <th>Выручка</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${revenueByService}">
+            <td th:text="${row[0].service_name}"></td>
+            <td th:text="${row[1]}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Пользователи</h2>
+    <p>Общее количество пользователей: <span th:text="${totalUsersCount}"></span></p>
+    <p>Количество активных пользователей: <span th:text="${activeUsersCount}"></span></p>
+
+    <h2>Автомобили</h2>
+    <h3>Самые популярные марки</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Марка</th>
+            <th>Количество</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${mostPopularBrands}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${row[1]}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Самые популярные модели</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Марка</th>
+            <th>Модель</th>
+            <th>Количество</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${mostPopularModels}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${row[1]}"></td>
+            <td th:text="${row[2]}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Распределение автомобилей по классам</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Класс</th>
+            <th>Количество</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${carsDistributionByClass}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${row[1]}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

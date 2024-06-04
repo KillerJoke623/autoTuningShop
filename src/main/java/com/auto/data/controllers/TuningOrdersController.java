@@ -10,6 +10,7 @@ import com.auto.data.repositories.ModelRepository;
 import com.auto.data.repositories.ServiceRepository;
 import com.auto.data.services.TuningOrdersService;
 import com.auto.data.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -46,30 +47,45 @@ public class TuningOrdersController {
     @Autowired
     private CarRepository carRepository;
 
+
+    //FIXME array of prices when it supposed to be one price
     @PostMapping
-    public String createTuningOrder(@ModelAttribute("tuningOrders") TuningOrders tuningOrder, @ModelAttribute("service") Service service, @ModelAttribute("models") com.auto.data.models.Model models) {
+    public String createTuningOrder(@ModelAttribute("tuningOrders") TuningOrders tuningOrder, @ModelAttribute("service") Service service, @ModelAttribute("models") com.auto.data.models.Model models, @ModelAttribute("carSelect") Car userCar,  HttpSession session) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         tuningOrder.setUser(userService.getUserByEmail(userName));
         tuningOrder.setDateTime(LocalDateTime.now());
 
-        Car car = new Car();
+        Car car;
+        if (userCar.getCar_id()==null) {
+            car = new Car();
 
-        car.setModel(models);
-        car.setManufacturers(car.getModel().getManufacturer());
-        car.setUsers(tuningOrder.getUser());
-        carRepository.save(car);
+            car.setModel(models);
+            car.setManufacturers(car.getModel().getManufacturer());
+            car.setUsers(tuningOrder.getUser());
+            carRepository.save(car);
+        }
+        else{
+            car = userCar;
+        }
         tuningOrder.setCar(car);
 
 
-        Set<Service> servicesList = new LinkedHashSet<Service>();
-        servicesList.add(service);
-        tuningOrder.setServicess(servicesList);
+//        Set<Service> servicesList = new LinkedHashSet<Service>();
+//        servicesList.add(service);
+//        tuningOrder.setServicess(servicesList);
+
+        List<Service> cart = (List<Service>) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+        tuningOrder.setServicess(new LinkedHashSet<>(cart)); // Устанавливаем услуги из корзины
+
 
         tuningOrderService.createTuningOrder(tuningOrder);
 
 
 
-        return "newTuningOrder";
+        return "servicesPage";
     }
 
     @GetMapping

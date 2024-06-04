@@ -1,6 +1,7 @@
 package com.auto.data.services;
 
 import com.auto.data.models.Users;
+import com.auto.data.repositories.TuningOrdersRepository;
 import com.auto.data.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+    @Autowired
+    private TuningOrdersRepository tuningOrdersRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -26,6 +30,14 @@ public class UserService {
     public boolean isUserCredentialsValid(String email, String password) {
         Users user = userRepository.findByEmail(email);
         return user != null && user.getPassword().equals(password);
+    }
+
+    public Long getTotalUsersCount() {
+        return userRepository.count();
+    }
+
+    public Long getActiveUsersCount() {
+        return userRepository.countDistinctByTuningOrdersesIsNotNull();
     }
 
 }

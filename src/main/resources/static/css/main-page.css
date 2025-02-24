@@ -1,0 +1,367 @@
+/* main-page.css */
+
+/* Hero Section Styles */
+.services-section.main-section {
+    height: 100vh;
+    min-height: 600px; /* Minimum height for smaller screens */
+    position: relative;
+    overflow: hidden; /* To contain background image */
+}
+
+.services-section.main-section .carousel-item {
+    height: 100vh;
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative; /* For overlay positioning */
+}
+
+/* Example background images - replace with your actual image URLs or file paths */
+.services-section.main-section .carousel-item.bg-hero-1 {
+    background-image: url('../images/2.jpg'); /* Replace with your hero image 1 */
+}
+
+.services-section.main-section .carousel-item.bg-hero-2 {
+    background-image: url('../images/1.jpg'); /* Replace with your hero image 2 */
+}
+
+.services-section.main-section .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better text readability */
+}
+
+.services-section.main-section .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.services-section.main-section .hero-title {
+    font-size: 3.5rem; /* Adjust as needed */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.services-section.main-section .hero-subtitle {
+    font-size: 1.5rem; /* Adjust as needed */
+    margin-bottom: 2rem;
+}
+
+.services-section.main-section .hero-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+}
+
+
+/* Advantages Section Styles */
+.advantages-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.advantages-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.advantages-section .advantages-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* For responsiveness */
+}
+
+.advantages-section .advantage-item {
+    text-align: center;
+    padding: 20px;
+    flex-basis: 20%; /* Adjust as needed, for ~4 columns on larger screens */
+    min-width: 200px; /* Minimum width for smaller screens */
+    margin-bottom: 20px; /* Spacing between items */
+}
+
+.advantages-section .advantage-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #007bff; /* Example icon color */
+}
+
+.advantages-section .advantage-item h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.advantages-section .advantage-item p {
+    font-size: 1rem;
+    color: #6c757d; /* Muted text color */
+}
+
+/* Services Grid Section Styles */
+.services-grid-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.services-grid-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.services-grid-section .services-grid {
+    /* Grid layout or flexbox for service cards */
+}
+
+.services-grid-section .service-item {
+    margin-bottom: 20px; /* Spacing between service cards */
+}
+
+.services-grid-section .service-card {
+    border: none; /* Remove default card border for cleaner look */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.services-grid-section .service-card .card-img-top {
+    height: 200px; /* Fixed image height */
+    object-fit: cover; /* Ensure images cover the area */
+}
+
+.services-grid-section .service-card .card-body {
+    padding: 1.5rem;
+}
+
+.services-grid-section .service-card .card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.7rem;
+}
+
+
+/* Callback Section Styles */
+.callback-section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.callback-section .callback-info {
+    /* Styles for the left side info part of callback section */
+}
+
+.callback-section .callback-info h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.callback-section .callback-info .lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.callback-section .callback-form {
+    /* Styles for the right side form part of callback section */
+}
+
+.callback-section .callback-form .form-control {
+    margin-bottom: 1rem;
+}
+
+.callback-section .callback-form .btn-block {
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+
+/* Reviews Section Styles */
+.reviews-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.reviews-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.reviews-section .reviews-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* For responsiveness */
+}
+
+.reviews-section .review-item {
+    flex-basis: 30%; /* Adjust as needed, for ~3 columns on larger screens */
+    min-width: 250px; /* Minimum width for smaller screens */
+    margin-bottom: 20px;
+}
+
+.reviews-section .review-item .card {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.reviews-section .review-item .card-body {
+    padding: 1.5rem;
+}
+
+.reviews-section .review-item .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.reviews-section .review-item .card-text {
+    font-size: 1rem;
+    color: #495057; /* Darker muted text color */
+    margin-bottom: 1rem;
+}
+
+.reviews-section .review-item .rating {
+    color: gold; /* Example rating color */
+}
+
+.reviews-section .btn-outline-dark {
+    /* Style for "Read all reviews" button */
+}
+
+
+/* Works Section Styles */
+.works-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.works-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.works-section .works-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* For responsiveness */
+}
+
+.works-section .work-item {
+    flex-basis: 45%; /* Adjust as needed, for ~2 columns on larger screens */
+    min-width: 300px; /* Minimum width for smaller screens */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.works-section .work-item .work-image {
+    overflow: hidden; /* Clip image to rounded corners */
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.works-section .work-item .work-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease; /* Hover zoom effect */
+}
+
+.works-section .work-item:hover .work-image img {
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.works-section .work-item h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.works-section .work-item p {
+    font-size: 1rem;
+    color: #495057; /* Darker muted text color */
+}
+
+.works-section .btn-outline-dark {
+    /* Style for "See all works" button */
+}
+
+
+/* FAQ Section Styles */
+.faq-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.faq-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.faq-section .faq-accordion {
+    /* Styles for accordion component */
+}
+
+.faq-section .accordion-item {
+    margin-bottom: 10px; /* Spacing between FAQ items */
+    border: 1px solid #dee2e6; /* Accordion item border */
+    border-radius: 0.25rem;
+}
+
+.faq-section .accordion-header .accordion-button {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 1.25rem 1.5rem; /* Adjust padding as needed */
+}
+
+.faq-section .accordion-body {
+    padding: 1.5rem;
+    font-size: 1rem;
+    color: #495057;
+}
+
+
+/* Second Callback Section Styles */
+.second-callback-section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    text-align: center;
+}
+
+.second-callback-section h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.second-callback-section .lead {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.second-callback-section .btn-outline-light {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+}
+
+/* Common Section Header Styles */
+.section-header {
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #6c757d; /* Muted text color */
+    max-width: 700px; /* Limit text width for better readability */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}

@@ -2,14 +2,17 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/main-page.css}"> <!-- New CSS for main page -->
+  <title>Авто Тюнинг Ателье</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> <!-- Fixed top navbar -->
   <div class="container">
-    <a class="navbar-brand" href="">Авто Тюнинг Ателье</a>
+    <a class="navbar-brand" href="http://localhost:8080">Авто Тюнинг Ателье</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,7 +20,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="">Главная</a>
+          <a class="nav-link" href="http://localhost:8080">Главная</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/services">Услуги</a>
@@ -45,49 +48,130 @@
   </div>
 </nav>
 
-<header class="jumbotron jumbotron-fluid text-center">
-  <div class="container">
-    <h1 class="display-4">Добро пожаловать в авто тюнинг ателье!</h1>
-    <p class="lead">Мы предлагаем профессиональные услуги по тюнингу вашего автомобиля.</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Подробнее</a>
-  </div>
-</header>
+<main id="MainPage">
+  <!-- Hero Section (Services Slider) -->
+  <section class="services-section main-section" id="hero-section">
+    <div class="container-fluid p-0"> <!-- Full width slider -->
+      <div id="servicesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active bg-hero-1"> <!-- Example background images, replace with your own -->
+            <div class="hero-content">
+              <h1 class="hero-title">Преобразите свой автомобиль</h1>
+              <p class="hero-subtitle">Профессиональный тюнинг и стайлинг для вашего авто.</p>
+              <a href="/services" class="btn btn-primary btn-lg hero-button">Наши услуги</a>
+            </div>
+          </div>
+          <div class="carousel-item bg-hero-2">
+            <div class="hero-content">
+              <h1 class="hero-title">Индивидуальный подход к каждому клиенту</h1>
+              <p class="hero-subtitle">Создадим уникальный стиль, отражающий вашу индивидуальность.</p>
+              <a href="/services" class="btn btn-primary btn-lg hero-button">Узнать больше</a>
+            </div>
+          </div>
+          <!-- Add more carousel items for different hero slides -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Следующий</span>
+        </button>
+      </div>
+    </div>
+  </section>
 
-<section class="container mt-5">
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <img class="card-img-top" th:src="@{/images/gt3.jpg}" alt="Услуга 1">
-        <div class="card-body">
-          <h5 class="card-title">Установка обвесов</h5>
-          <p class="card-text">Установка обвесов (body kits), на фото вы можете наблюдать Porsche 911 Carera с обвесом от GT3</p>
-          <a href="#" class="btn btn-primary">Узнать больше</a>
+  <!-- Advantages Section -->
+  <section class="advantages-section section" id="advantages-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Наши преимущества</h2>
+        <p>Почему выбирают нас для тюнинга автомобилей</p>
+      </div>
+      <div class="row advantages-list">
+        <div class="col-md-3 advantage-item">
+          <i class="fas fa-cog advantage-icon"></i> <!-- Example icon, replace with your own -->
+          <h3>Профессионализм</h3>
+          <p>Команда опытных мастеров с многолетним стажем.</p>
+        </div>
+        <div class="col-md-3 advantage-item">
+          <i class="fas fa-wrench advantage-icon"></i>
+          <h3>Широкий спектр услуг</h3>
+          <p>От стайлинга до технического тюнинга любой сложности.</p>
+        </div>
+        <div class="col-md-3 advantage-item">
+          <i class="fas fa-check-circle advantage-icon"></i>
+          <h3>Гарантия качества</h3>
+          <p>Используем только качественные материалы и даем гарантию на все работы.</p>
+        </div>
+        <div class="col-md-3 advantage-item">
+          <i class="fas fa-users advantage-icon"></i>
+          <h3>Индивидуальный подход</h3>
+          <p>Учитываем все пожелания клиента и предлагаем лучшие решения.</p>
         </div>
       </div>
     </div>
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <img class="card-img-top" th:src="@{/path/to/image2.jpg}" alt="Услуга 2">
-        <div class="card-body">
-          <h5 class="card-title">Услуга 2</h5>
-          <p class="card-text">Описание услуги 2. Здесь вы можете рассказать о том, что вы предлагаете
-            клиентам.</p>
-          <a href="#" class="btn btn-primary">Узнать больше</a>
+  </section>
+
+
+
+
+
+
+
+  <!-- FAQ Section -->
+  <section class="faq-section section bg-light" id="faq-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Часто задаваемые вопросы</h2>
+        <p>Ответы на самые популярные вопросы о тюнинге</p>
+      </div>
+      <div class="accordion faq-accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Что такое чип-тюнинг и какие преимущества он дает?
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Чип-тюнинг - это изменение программы управления двигателем для увеличения мощности,
+              крутящего момента и улучшения динамических характеристик автомобиля.
+            </div>
+          </div>
         </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Какие виды тюнинга вы предлагаете?
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Мы предлагаем широкий спектр услуг, включая внешний стайлинг, внутренний тюнинг салона,
+              технический тюнинг двигателя и подвески, установку дополнительного оборудования и многое другое.
+            </div>
+          </div>
+        </div>
+        <!-- Add more FAQ items as needed -->
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+
+
+</main>
 
 <footer class="footer bg-dark text-white text-center py-3">
   <div class="container">
-    <p>&copy; 2023 Цифровая платформа автомобильного тюнинг ателье. Все права защищены.</p>
+    <p>© 2023 Цифровая платформа автомобильного тюнинг ателье. Все права защищены.</p>
   </div>
 </footer>
 
 <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
 <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script> <!-- Font Awesome (replace with your kit -->
 </body>
 </html>

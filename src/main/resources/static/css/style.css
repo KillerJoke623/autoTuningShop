@@ -1,35 +1,31 @@
-/* Основные стили */
-body {
-    font-family: sans-serif; /* Выберите подходящий шрифт */
+/* style.css */
+.service-card {
+    border: 1px solid #dee2e6; /* Optional: Add border for better card separation */
+    border-radius: 0.25rem;
+    overflow: hidden; /* Ensure image doesn't overflow rounded corners */
 }
 
-
-
-/* Стили для заголовков */
-.display-4 {
-    font-size: 3em; /* Увеличьте размер главного заголовка */
-    margin-bottom: 1em;
+.service-image {
+    max-height: 200px; /* Adjust as needed */
+    object-fit: cover; /* Maintain image aspect ratio and cover area */
 }
 
-.h2, .h3 {
-    margin-top: 1.5em; /* Добавьте отступы сверху для подзаголовков */
+.service-card .card-body {
+    padding: 1rem;
 }
 
-/* Стили для текста */
-.lead {
-    font-size: 1.2em;
+.service-card .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
-/* Стили для формы */
-.form-label {
-    font-weight: bold;
+.service-card .card-text {
+    font-size: 1rem;
+    color: #6c757d; /* Optional: Muted text color */
 }
 
-.form-control,
-.form-select {
-    /* Добавьте стили для полей формы и выпадающих списков */
-}
-
-.btn-primary {
-    /* Стили для кнопок */
+.service-card .card-footer {
+    background-color: transparent; /* Remove default footer background */
+    border-top: none; /* Remove top border of footer */
+    padding: 0 1rem 1rem 1rem; /* Adjust footer padding */
 }

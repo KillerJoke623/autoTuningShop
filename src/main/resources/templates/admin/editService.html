@@ -2,36 +2,66 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${service.service_id != null ? 'Редактирование услуги' : 'Добавление услуги'}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>[[${service.service_id != null ? 'Редактирование услуги' : 'Добавление услуги'}]]</h1>
-<form th:action="@{${service.service_id != null ? '/admin/services/edit/' + service.service_id : '/admin/services/add'}}" method="post" th:object="${service}" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{service_id}">
-    <label for="service_name">Название:</label>
-    <input type="text" id="service_name" th:field="*{service_name}"><br><br>
-    <label for="service_description">Описание:</label>
-    <textarea id="service_description" th:field="*{service_description}"></textarea><br><br>
-    <label for="service_price">Цены (через запятую):</label>
-    <input type="text" id="service_price" th:field="*{service_price}"><br><br>
 
-    </br>
-    <input type="file" name="imageFile" accept="image/jpeg">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/admin/orders">Админ Панель</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/orders">Заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/manufacturers">Производители</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/models">Модели</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin/services">Услуги</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/analytics">Аналитика</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    </br>
-    </br>
+<div class="container mt-4">
+    <h1 th:text="${service.service_id != null ? 'Редактирование услуги' : 'Добавление услуги'}"></h1>
+    <form th:action="@{${service.service_id != null ? '/admin/services/edit/' + service.service_id : '/admin/services/add'}}" method="post" th:object="${service}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{service_id}">
+        <div class="form-group">
+            <label for="service_name">Название:</label>
+            <input type="text" class="form-control" id="service_name" th:field="*{service_name}" required="required">
+        </div>
+        <div class="form-group">
+            <label for="service_description">Описание:</label>
+            <textarea class="form-control" id="service_description" th:field="*{service_description}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="service_price">Цены (через запятую, для каждого класса авто):</label>
+            <input type="text" class="form-control" id="service_price" th:field="*{service_price}">
+            <small class="form-text text-muted">Укажите цены через запятую в порядке классов авто (например: 1000,2000,3000)</small>
+        </div>
+        <div class="form-group">
+            <label for="imageFile">Фото услуги:</label>
+            <input type="file" class="form-control-file" id="imageFile" name="imageFile" accept="image/jpeg">
+            <small class="form-text text-muted">Выберите JPEG файл для загрузки (необязательно)</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
 
-    <input type="submit" value="Сохранить">
-</form>
-
-<!--<form th:action="@{${service.service_id != null ? '/admin/services/edit/' + service.service_id : '/admin/services/add'}}"-->
-<!--      method="post" th:object="${service}" enctype="multipart/form-data">-->
-<!--    </br>-->
-<!--    <input type="file" name="imageFile" accept="image/jpeg">-->
-
-<!--    </br>-->
-<!--    </br>-->
-<!--    <input type="submit" value="Сохранить">-->
-<!--</form>-->
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

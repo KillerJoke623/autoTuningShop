@@ -103,8 +103,8 @@ public class CartController {
         Car selectedCar = (Car) session.getAttribute("selectedCar");
 
         TuningOrders order = new TuningOrders();
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        order.setUser(userService.getUserByEmail(userName));
+
+        order.setUser(userService.getCurrentUser());
         order.setDateTime(LocalDateTime.now());
         order.setCar(selectedCar);
         order.setServicess(new LinkedHashSet<>(cart));

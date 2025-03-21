@@ -14,16 +14,16 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer car_id;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "model_car_part_carpart_id")
-    private Model model;
-
-    @ManyToOne
-    @JoinColumn(name = "users_user_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "users_user_id", nullable = false)
     private Users users;
 
-    @ManyToOne
-    @JoinColumn(name = "manufacturers_manufacturer_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "manufacturers_manufacturer_id", nullable = false)
     private Manufacturers manufacturers;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "model_model_id", nullable = false)
+    private Model model;
 
 }

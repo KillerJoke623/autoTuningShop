@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class ModelsController {
 
-//    private final ModelRepository modelRepository;
+
     private final ManufacturersRepository manufacturersRepository;
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -30,7 +30,6 @@ public class ModelsController {
     @GetMapping("/api/models/manufacturer/{manufacturerId}")
     public String getModelsByManufacturer(@PathVariable Integer manufacturerId) throws JSONException {
         // Get the models for the specified manufacturer.
-//        List<Model> models = modelRepository.findByManufacturerId(manufacturerId);
         List<Model> models = manufacturersRepository.findById(manufacturerId).get().getModels();
 
         JSONArray jsonArray = new JSONArray();
@@ -43,8 +42,7 @@ public class ModelsController {
                             .put("model_id", model.getModel_id())
                             .put("model_name", model.getModel_name())
             );
-//            jsonObject.put("model_id", model.getModel_id());
-//            jsonObject.put("model_name", model.getModel_name());
+
         }
 
 

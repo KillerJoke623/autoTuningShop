@@ -1,5 +1,6 @@
 package com.auto.web.configurations;
 
+import com.auto.web.services.OAuth2UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +42,9 @@ public class WebSecurityConfig{
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
+    @Autowired
+    private OAuth2UserService oAuth2UserService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -56,45 +60,43 @@ public class WebSecurityConfig{
         return new ProviderManager(daoAuthenticationProvider);
     }
 
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeRequests(authorizeRequests -> {
-//                    try {
-//                        authorizeRequests.anyRequest()
-//                                        .authenticated().and().csrf().disable();
-//                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                })
-//                .httpBasic(withDefaults())
-//                .formLogin(withDefaults());
-//        return http.build();
-//    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**")).hasRole("ADMIN")
+
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/login"),
                                 AntPathRequestMatcher.antMatcher("/registration"),
                                 AntPathRequestMatcher.antMatcher("/"),
                                 AntPathRequestMatcher.antMatcher("/servicesPage"),
                                 AntPathRequestMatcher.antMatcher("/css/**"),  // Разрешаем доступ к CSS
                                 AntPathRequestMatcher.antMatcher("/images/**"), // Разрешаем доступ к images
-                                AntPathRequestMatcher.antMatcher("/js/**")) // Разрешаем доступ к JavaScript
+                                AntPathRequestMatcher.antMatcher("/js/**"), // Разрешаем доступ к JavaScript
+                                AntPathRequestMatcher.antMatcher("/oauth2/**"))
                         .permitAll()
                         .anyRequest().authenticated()
                 )
+                .oauth2Login(oauth2Login ->  // Настройка oauth2Login в отдельном блоке lambda
+                        oauth2Login
+                                .loginPage("/login")
+                                .userInfoEndpoint()
+                                .oidcUserService(oAuth2UserService)
+                )
                 .formLogin(
-                        withDefaults()
+                        form -> form
+                                .loginPage("/login")
+                                .permitAll()
                 )
                 .logout(logout -> logout
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 );
         return http.build();
     }
-    //!TODO Resolve endless redirecting to /login (ERR_TOO_MANY_REDIRECTS)
+
     //!TODO Убрать костыль в services
     //!TODO написать нормал конфиг, который работает, потому что сейчас на дефолте всё ок, но при этом не используется login.html и неизвестно, используется ли LoginController
 //    @Bean

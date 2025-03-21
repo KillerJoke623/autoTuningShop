@@ -12,8 +12,10 @@ import com.auto.data.repositories.TuningOrdersRepository;
 import com.auto.data.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +43,9 @@ public class AccountController {
 
     @GetMapping("/account")
     public String getAccount(Model model) {
-        Users user = userService.getUserByEmail( SecurityContextHolder.getContext().getAuthentication().getName());
-        //!TODO Manufacturer Model to make add car button work
+
+        Users user = userService.getCurrentUser();
+
         List<TuningOrders> orders = tuningOrdersRepository.findByUser_User_id(user.getUser_id());
 
         List<Manufacturers> manufacturers = manufacturersRepository.findAll();
@@ -56,10 +59,10 @@ public class AccountController {
     }
 
     @PostMapping("/account/createCar")
-    public String createCar(@ModelAttribute("car") Car car, @ModelAttribute("models") com.auto.data.models.Model models) {
-        // Получаем текущего пользователя (предполагается, что вы храните его в сессии после аутентификации)
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Users user = userService.getUserByEmail( SecurityContextHolder.getContext().getAuthentication().getName());
+    public String createCar(@ModelAttribute("car") Car car,
+                            @ModelAttribute("models") com.auto.data.models.Model models) {
+
+        Users user = userService.getCurrentUser();
 
         car.setModel(models);
         // Устанавливаем владельца автомобиля

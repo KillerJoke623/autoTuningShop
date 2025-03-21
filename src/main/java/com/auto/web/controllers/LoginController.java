@@ -44,37 +44,7 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String processLogin(@ModelAttribute("user") Users user, Model model) {
-        // Проверяем, существует ли пользователь с таким email в базе данных
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        if (userDetails != null && passwordEncoder.matches(passwordEncoder.encode(user.getPassword()), userDetails.getPassword())) {
-            boolean isthisright = passwordEncoder.matches(passwordEncoder.encode(user.getPassword()), userDetails.getPassword());
-            // Если пользователь найден, пытаемся аутентифицировать его
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getEmail(),
-                            passwordEncoder.encode(user.getPassword())
-                    )
-            );
-            if (authentication.isAuthenticated()) {
-                return "redirect:/services";
-            }
-        }
-        else {
-            model.addAttribute("errorMessage", "Неверный email или пароль.");
-            return "login";
-        }
 
-//        // Если аутентификация прошла успешно, перенаправляем пользователя на главную страницу
-//        if (authentication.isAuthenticated()) {
-//            return "redirect:/services";
-//        }
-
-        // Если аутентификация не удалась, перенаправляем пользователя на форму входа с сообщением об ошибке
-        model.addAttribute("errorMessage", "Неверный email или пароль.");
-        return "login";
-    }
 
 }
 

@@ -40,14 +40,6 @@ public class UserController {
         return "redirect:/registration-success";
     }
 
-//    private boolean isValidEmail(String email) {
-//        try {
-//            InternetAddress emailAddr = new InternetAddress(email);
-//            emailAddr.validate();
-//            return true;
-//        } catch (AddressException ex) {
-//            return false;
-//        }
-//    }
+
 
 }

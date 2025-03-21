@@ -12,7 +12,10 @@ import com.auto.data.services.TuningOrdersService;
 import com.auto.data.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,9 +53,13 @@ public class TuningOrdersController {
 
     //FIXME array of prices when it supposed to be one price
     @PostMapping
-    public String createTuningOrder(@ModelAttribute("tuningOrders") TuningOrders tuningOrder, @ModelAttribute("service") Service service, @ModelAttribute("models") com.auto.data.models.Model models, @ModelAttribute("carSelect") Car userCar,  HttpSession session) {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        tuningOrder.setUser(userService.getUserByEmail(userName));
+    public String createTuningOrder(@ModelAttribute("tuningOrders") TuningOrders tuningOrder,
+                                    @ModelAttribute("service") Service service,
+                                    @ModelAttribute("models") com.auto.data.models.Model models,
+                                    @ModelAttribute("carSelect") Car userCar,
+                                    HttpSession session) {
+
+        tuningOrder.setUser(userService.getCurrentUser());
         tuningOrder.setDateTime(LocalDateTime.now());
 
         Car car;
@@ -89,11 +96,17 @@ public class TuningOrdersController {
     }
 
     @GetMapping
-    public String showTuningOrderPage(Model model, @PathVariable Integer serviceId) {
-        Service service = serviceRepository.findById(serviceId).orElseThrow(() -> new IllegalArgumentException("Service not found"));
+    public String showTuningOrderPage(Model model, @PathVariable Integer serviceId,
+                                      @AuthenticationPrincipal OidcUser oidcUser) {
+
+        Service service = serviceRepository.findById(serviceId).
+                orElseThrow(() -> new IllegalArgumentException("Service not found"));
+
         List<Manufacturers> manufacturers = manufacturersRepository.findAll();
         List<com.auto.data.models.Model> models = modelRepository.findAll();
-        Users user = userService.getUserByEmail( SecurityContextHolder.getContext().getAuthentication().getName());
+
+        Users user = userService.getCurrentUser();
+
 
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("models", models);

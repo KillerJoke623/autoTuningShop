@@ -204,9 +204,7 @@ public class AdminController {
         CarClass carClass = carClassRepository.findById(updatedModel.getCarClass().getId()).orElse(null);
         model.setCarClass(carClass);
 
-//        // Получаем объект Manufacturers по ID
-//        Manufacturers manufacturer = manufacturersRepository.findById(updatedModel.getManufacturer().getManufacturer_id()).orElse(null);
-//        model.setManufacturer(manufacturer);
+
 
         modelRepository.save(model);
         return "redirect:/admin/models";

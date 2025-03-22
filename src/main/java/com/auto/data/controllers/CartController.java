@@ -9,7 +9,6 @@ import com.auto.data.services.TuningOrdersService;
 import com.auto.data.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +38,14 @@ public class CartController {
         List<Service> cart = (List<Service>) session.getAttribute("cart");
         List<Integer> cartPrices = (List<Integer>) session.getAttribute("cartPrices");
 
+        Car selectedCar = (Car) session.getAttribute("selectedCar");
+
         if (cart == null) {
             cart = new ArrayList<>();
-            cartPrices = new ArrayList<>();
         }
         model.addAttribute("cart", cart);
         model.addAttribute("cartPrices", cartPrices);
+        model.addAttribute("selectedCar", selectedCar);
         return "cart";
     }
 
@@ -74,6 +75,7 @@ public class CartController {
         // Сохраняем выбранный автомобиль в сессии
         session.setAttribute("selectedCar", car);
 
+
         return "redirect:/services"; // Перенаправление на страницу услуг
     }
 
@@ -85,13 +87,12 @@ public class CartController {
             for (int i = 0; i < cart.size(); i++) {
                 if (cart.get(i).getService_id().equals(id)) {
                     cart.remove(i);
-                    cartPrices.remove(i); // Удаляем цену соответствующей услуги
                     break;
                 }
             }
             session.setAttribute("cart", cart);
-            session.setAttribute("cartPrices", cartPrices);
         }
+
         return "redirect:/cart";
     }
 

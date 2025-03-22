@@ -1,0 +1,80 @@
+
+
+.cart-container {
+    max-width: 960px; /* Adjust container width as needed */
+}
+
+.cart-title {
+    font-size: 2.5rem;
+    color: #343a40; /* Darker title color */
+}
+
+.selected-car-info {
+    background-color: #f8f9fa; /* Light gray background for car info */
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.car-name {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.cart-items-list {
+    margin-bottom: 1.5rem;
+}
+
+.cart-item {
+    padding: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08); /* Subtle shadow for list items */
+}
+
+.service-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 120px; /* Ограничиваем максимальную высоту изображения */
+    object-fit: cover; /* Обрезаем изображение, сохраняя пропорции */
+    border-radius: 0.25rem;
+}
+
+.service-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.service-description {
+    font-size: 1rem;
+    color: #6c757d; /* Muted description text */
+}
+
+.service-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.remove-button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.9rem;
+}
+
+.cart-summary {
+    padding: 1rem 0;
+    border-top: 1px solid #dee2e6; /* Separator line */
+}
+
+.total-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.checkout-button, .back-to-services-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+}
+
+.back-to-services-button {
+    margin-right: 1rem;
+}

@@ -29,11 +29,19 @@
         <div class="card">
           <div class="card-body">
             <h2 class="card-title">Автомобили:</h2>
+
             <ul class="list-unstyled">
-              <li th:each="car : ${user.getCars()}">
-                <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
+              <li th:each="car : ${cars}" > <!-- Используем отфильтрованный список 'cars' из модели -->
+                <div class="d-flex justify-content-between align-items-center">
+                  <p th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} |"></p>
+                  <form th:action="@{/account/deleteCar/{carId}(carId=${car.car_id})}" th:method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                  </form>
+                </div>
               </li>
             </ul>
+            <p class="card-text" th:if="${cars.isEmpty()}">У вас пока нет добавленных автомобилей.</p>
+
             <form th:action="@{/account/createCar}" method="post" th:object="${car}">
               <select name="manufacturers" id="manufacturers" class="form-select mb-3">
                 <option value="">-- Select Manufacturer --</option>

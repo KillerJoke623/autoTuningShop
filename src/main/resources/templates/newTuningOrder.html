@@ -39,7 +39,7 @@
                             <label for="carSelect" class="form-label">Выберите автомобиль:</label>
                             <select class="form-select" id="carSelect" name="carSelect">
                                 <option value="" selected>-- Выберите автомобиль из списка --</option>
-                                <option th:each="car : ${user.getCars()}" th:value="${car.car_id}"
+                                <option th:each="car : ${cars}" th:value="${car.car_id}"
                                         th:data-car-class-id="${car.model.carClass.id}"
                                         th:text="| ${car.getManufacturers().manufacturer} ${car.getModel().model_name} (${car.model.carClass.name}) |"></option>
                             </select>

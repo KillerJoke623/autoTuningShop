@@ -1,0 +1,3 @@
+
+        ALTER TABLE car ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
+    ;

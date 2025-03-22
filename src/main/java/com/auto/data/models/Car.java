@@ -26,4 +26,6 @@ public class Car {
     @JoinColumn(name = "model_model_id", nullable = false)
     private Model model;
 
+    @Column(name = "is_active") // Добавляем поле is_active и мапим на столбец is_active
+    private Boolean isActive = true; // По умолчанию автомобиль активен
 }

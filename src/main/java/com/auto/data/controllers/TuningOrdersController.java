@@ -107,12 +107,16 @@ public class TuningOrdersController {
 
         Users user = userService.getCurrentUser();
 
+        List<Car> cars = user.getCars().stream()
+                .filter(Car::getIsActive) // Фильтруем по isActive = true
+                .toList();
 
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("models", models);
         model.addAttribute("service", service);
         model.addAttribute("tuningOrders", new TuningOrders());
         model.addAttribute("user", user);
+        model.addAttribute("cars", cars);
 
         return "newTuningOrder";
     }
